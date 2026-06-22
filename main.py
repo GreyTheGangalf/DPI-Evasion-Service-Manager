@@ -4,6 +4,7 @@ import time
 import threading
 import ctypes
 import os
+import json
 
 class DPIBypassManager:
     def __init__(self, executable_path):
@@ -77,3 +78,36 @@ if __name__ == "__main__":
     
     except KeyboardInterrupt:
         manager.stop()
+
+class ConfigManager:
+    def __init__(self,config_file="config.json"):
+        self.config_file =config_file
+        self.config_data = self.load_config()
+
+    def load_config(self):
+        if not os.path.exists(self.config_file):
+            print(f"[-] Error: {self.config_file} can't found!")
+            return None
+        
+        try:
+            with open(self.config_file, "r", encoding="utf-8") as file:
+                return json.load(file)
+        except json.JSONDecodeError:
+            print("[-] Error: JSON file format is invalid.")
+            return None
+    
+    def get_tool_path(self):
+        return self.config_data.get("tool_path","./goodbyeapi.exe") if self.config_data else None
+    
+    def get_activate_parameters(self):
+        if not self.config_data:
+            return []
+        activate_profile = self.config_data.get("activate_profile")
+        profiles = self.config_data.get("profiles",{})
+
+        if activate_profile in profiles:
+            print(f"[+] '{activate_profile}' profile has been loaded.")
+            return profiles [activate_profile]
+        else:
+            print(f"[-] Error: '{activate_profile}' can't found. Default parammeters will be used.")
+            return [-5]
