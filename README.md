@@ -63,3 +63,5 @@ V2: Migration to a modern graphical user interface (GUI) utilizing Next.js, Tail
 
 ⚠️ Disclaimer
 This project is developed strictly for educational purposes and to demonstrate systems programming, process management, and network protocol concepts. The developer assumes no liability for the misuse of this software. Please respect the terms of service of your network provider.
+
+This project is a Python wrapper. The core DPI evasion functionality is powered by GoodbyeDPI and packet diversion is handled by WinDivert. All credits for the underlying binaries go to their respective original authors.
