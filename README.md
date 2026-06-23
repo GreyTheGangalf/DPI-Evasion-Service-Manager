@@ -65,3 +65,13 @@ V2: Migration to a modern graphical user interface (GUI) utilizing Next.js, Tail
 This project is developed strictly for educational purposes and to demonstrate systems programming, process management, and network protocol concepts. The developer assumes no liability for the misuse of this software. Please respect the terms of service of your network provider.
 
 This project is a Python wrapper. The core DPI evasion functionality is powered by GoodbyeDPI and packet diversion is handled by WinDivert. All credits for the underlying binaries go to their respective original authors.
+
+This is NOT a VPN
+
+Please note that **DPI Evasion Manager** is designed solely to bypass Deep Packet Inspection (DPI) systems used by Internet Service Providers. It works by manipulating packet fragmentation and SNI headers at the local level.
+
+* **No IP Masking:** This tool does **not** change, hide, or mask your real IP address.
+* **No Traffic Encryption:** Unlike a traditional VPN, it does **not** encrypt your overall network traffic.
+* **No Privacy/Anonymity Guarantee:** It does not provide secure browsing, anonymity, or protection against third-party tracking, malicious actors, or network monitoring.
+
+Use this tool responsibly and understand that your destination traffic is still fundamentally visible to the network nodes you pass through. If you require absolute privacy, data encryption, and anonymity, please use a trusted and secure VPN service.
