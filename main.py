@@ -111,3 +111,99 @@ class ConfigManager:
         else:
             print(f"[-] Error: '{activate_profile}' can't found. Default parammeters will be used.")
             return [-5]
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else clear)
+
+def main_menu():
+    config = ConfigManager()
+    tool_path = config.get_tool_path()
+
+    if not tool_path:
+        sys.exit(1)
+    
+    manager = DPIBypassManager(tool_path)
+
+    while True:
+        clear_screen()
+        print("-----------------------------------")
+        print("        DPI Evasion Manager        ")
+        print("-----------------------------------")
+
+        active_profile = config.config_data.get("active_profile", "Unknown")
+        status = "🟢 ACTIVE (Running)" if manager.is_running else "🔴 PASSİVE (Stopped)"
+
+        print(f"Status              : {status}")
+        print(f"Active Profile      : {active_profile}")
+        print("---------------------------------------")
+
+        print("[1] Start Service")
+        print("[2] Stop Service")
+        print("[3] Change Profile")
+        print("[4] Exit \n")
+
+        choice = input("Choose (1-4): ").strip()
+
+        if choice == "1":
+            if not manager.is_running:
+                params = config.get_activate_parameters()
+                manager.start(params)
+            else:
+                print("\n[!] Service is already running!")
+                time.sleep(2)
+        
+        elif choice == "2":
+            if manager.is_running():
+                manager.stop()
+            else:
+                print("[!] Service is already shut!")
+                time.sleep(2)
+
+        elif choice == "3":
+            print("\n--- Avaliable Profiles ---")
+            profiles = config.config_data.get("profiles",{})
+            profile_names = list(profiles.keys())
+
+            for index, profile_name in enumerate(profile_names,1):
+                print(f"[{index}] {profile_name}")
+            
+            try:
+                profile_choice = int(input("\n Enter the number of desired profile: "))
+                if 1 <= profile_choice <= len(profile_names):
+                    new_profile = profile_names[profile_choice-1]
+
+                    config.config_data["activate_profile"] = new_profile
+
+                    with open(config.config_file,"w",encoding="utf-8") as f:
+                        json.dump(config.config_data,f,indent=4)
+
+                    print(f"\n[+] The profile has been updated to ‘{new_profile}’!")
+
+                    if manager.is_running:
+                        print("[*] The service is restarting to apply the changes...")
+                        manager.stop()
+                        manager.start(config.get_activate_parameters())
+                else:
+                    print("\n Invalid Choice.")
+
+            except ValueError:
+                print("\n[-] Enter a valid number.")
+            
+            time.sleep(2)
+
+        elif choice == "4":
+            print("\n[*] Exiting...")
+            if manager.is_running:
+                manager.stop()
+            sys.exit(0)
+
+        else:
+            print("\n[-] Invalid Choice, try again.")
+            time.sleep(1)
+if __name__ == "__main__":
+    try:
+        main_menu()
+    except KeyboardInterrupt:
+        print("\n[*] Forced to stop. Cleaning...")
+        sys.exit(0)
+                

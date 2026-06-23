@@ -2,8 +2,8 @@
     "tool_path": "./goodbyedpi.exe",
     "active_profile": "default",
     "profiles": {
-        "varsayilan": ["-5"],
-        "agresif": ["-9", "--dns-addr", "1.1.1.1", "--dns-port", "53"],
-        "ozel_hizli": ["-e", "1", "-f", "1", "--reverse-frag"]
+        "default": ["-5"],
+        "aggresive": ["-9", "--dns-addr", "1.1.1.1", "--dns-port", "53"],
+        "custom_speed": ["-e", "1", "-f", "1", "--reverse-frag"]
     }
 }
