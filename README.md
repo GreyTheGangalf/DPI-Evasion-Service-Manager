@@ -327,9 +327,8 @@ Want to improve DPI Service Manager? We welcome contributions!
 ### Ways to Contribute
 
 1. **Report Bugs** → Create an [Issue](https://github.com/GreyTheGangalf/DPI-Evasion-Service-Manager/issues)
-2. **Suggest Features** → Use [Discussions](https://github.com/GreyTheGangalf/DPI-Evasion-Service-Manager/discussions)
-3. **Submit Code** → Create a [Pull Request](https://github.com/GreyTheGangalf/DPI-Evasion-Service-Manager/pulls)
-4. **Improve Docs** → Help with documentation
+2. **Submit Code** → Create a [Pull Request](https://github.com/GreyTheGangalf/DPI-Evasion-Service-Manager/pulls)
+3. **Improve Docs** → Help with documentation
 
 ### Development Setup
 
