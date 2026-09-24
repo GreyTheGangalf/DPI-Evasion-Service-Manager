@@ -1,47 +1,53 @@
-# DMP – Download Manager
+# DPI Evasion Service Manager
 
-A simple desktop download manager I made for my own daily use. It's a small personal project, not a polished product, so expect rough edges and possible bugs.
+A small command-line helper I wrote for my own daily use on Windows. It starts and stops [GoodbyeDPI](https://github.com/ValdikSS/GoodbyeDPI) from a simple menu and lets me switch between saved argument profiles. It's a personal project for basic use, so it may contain bugs.
 
-<img width="737" height="527" alt="DMP screenshot" src="https://github.com/user-attachments/assets/add7d488-e8f2-4e9f-a372-97d9b8981b2c" />
+<img width="457" height="262" alt="DPI Evasion Manager screenshot" src="https://github.com/user-attachments/assets/3ea4beb4-d5e8-4be6-952c-c5ebcacb20cb" />
 
 ## What it does
 
-You paste a link and click **Start Download**:
+- Menu with four options: start, stop, change profile, exit
+- Shows whether the service is running and which profile is active
+- Prints GoodbyeDPI's output to the console from a background thread
+- Profiles are stored in `config.json`; choosing a new profile saves it and, if GoodbyeDPI is running, restarts it with the new arguments
+- Checks for administrator rights before starting, since GoodbyeDPI needs them
 
-- Links from video sites (YouTube, X/Twitter, Instagram, TikTok, Vimeo, Reddit, Yandex) are downloaded with [yt-dlp](https://github.com/yt-dlp/yt-dlp).
-- For other links, DMP sends a `HEAD` request to check the content type. Web pages go to yt-dlp; direct files are downloaded by `downloader.py`, which splits the file into 4 parts and downloads them in separate threads using HTTP `Range` requests, then merges them.
-
-There is also a **Cancel** button and an **Open Downloads** button. Files are saved to `Downloads/DMP_Downloads` in your home folder (videos go into a `vids` subfolder).
+All the actual packet handling is done by GoodbyeDPI; this tool only manages it.
 
 ## Running it
 
-```bash
-git clone https://github.com/GreyTheGangalf/DMP.git
-cd DMP
-pip install requests yt-dlp customtkinter
-python main.py
+Windows only. The tool is meant to be used through the prebuilt executable in the `dist` folder.
+
+1. Download or clone the repository.
+2. Copy `dist/DPI_Manager.exe` into the main project folder, so it sits next to `config.json`, `goodbyedpi.exe`, `WinDivert.dll` and `WinDivert64.sys`.
+3. Right-click `DPI_Manager.exe` and choose **Run as administrator**.
+
+The GoodbyeDPI files are included in the repository; you can also download them from the [official GoodbyeDPI releases](https://github.com/ValdikSS/GoodbyeDPI/releases).
+
+## Profiles
+
+Each profile in `config.json` is just the list of arguments passed to GoodbyeDPI:
+
+```json
+{
+    "tool_path": "./goodbyedpi.exe",
+    "active_profile": "default",
+    "profiles": {
+        "default": ["-5"],
+        "aggresive": ["-9", "--dns-addr", "1.1.1.1", "--dns-port", "53"],
+        "custom_speed": ["-e", "1", "-f", "1", "--reverse-frag"]
+    }
+}
 ```
 
-A Windows build made with PyInstaller is in the `dist` folder.
-
-A few notes:
-
-- Downloading the best video quality needs [FFmpeg](https://ffmpeg.org/) to merge video and audio.
-- YouTube changes often. If video downloads stop working, updating yt-dlp (`pip install -U "yt-dlp[default]"`) usually helps; recent versions also need a JavaScript runtime such as [Deno](https://deno.com/) for YouTube.
+You can add your own profiles; they show up in the menu automatically. See the GoodbyeDPI README for what each argument does.
 
 ## Limitations
 
-This is built for simple, everyday use:
+- Windows only, tested only on my own machine.
+- Made for simple personal use; error handling is basic.
 
-- One download at a time, no queue, no pause/resume.
-- The number of connections is fixed at 4.
-- It has only been tested by me on my own Windows machine, so it may not work with every site or server.
-
-Bug reports and suggestions are welcome through Issues.
-
-## Built with
-
-Python, CustomTkinter, Requests, yt-dlp, `threading`, PyInstaller.
+Please make sure your use complies with the laws and network policies that apply to you. Suggestions and bug reports are welcome through Issues.
 
 ## License
 
